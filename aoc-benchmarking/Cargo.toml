@@ -13,3 +13,4 @@ criterion = "0.5.1"
 
 [dependencies]
 aoc-plumbing = { path = "../aoc-plumbing" }
+secret-entrance = { path = "../day-001-secret-entrance" }
