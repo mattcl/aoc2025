@@ -23,4 +23,4 @@ build-cli:
     cargo build -p aoc-cli --release
 
 build-cli-ci:
-    cargo build -p aoc-cli --features lite --profile release-ci
+    RUSTFLAGS="-C target-cpu=native" cargo build -p aoc-cli --features lite --profile release-ci
