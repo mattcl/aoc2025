@@ -36,7 +36,7 @@ just build-cli
 cd ../
 
 # this is fragile: we're going to assume we always have a --version flag
-VERSION=$("repo/target/release/aoc" --version | cut -d " " -f 2)
+VERSION=$("repo/target/release-ci/aoc" --version | cut -d " " -f 2)
 
 # we need a way to reference the version
 echo "$VERSION" > release/VERSION
@@ -44,7 +44,7 @@ echo "$VERSION" > release/VERSION
 echo "Packaging $VERSION for $TARGET"
 
 mkdir dist
-cp "repo/target/release/aoc" dist/
+cp "repo/target/release-ci/aoc" dist/
 
 cd dist
 ARCHIVE="aoc-${VERSION}-${TARGET}.tar.gz"
