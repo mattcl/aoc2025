@@ -28,7 +28,7 @@ set -ex
 aoc-tools criterion-summary target/criterion
 
 # build the cli
-just build-cli
+just build-cli-ci
 
 # package the release into a tarball for export
 
