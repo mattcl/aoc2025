@@ -28,3 +28,6 @@ lto = true
 inherits = "release"
 opt-level = 3
 codegen-units = 1
+debug = false
+incremental = false
+panic = "abort"
