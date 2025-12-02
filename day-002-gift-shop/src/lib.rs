@@ -4,6 +4,34 @@ use anyhow::anyhow;
 use aoc_plumbing::Problem;
 use rustc_hash::FxHashSet;
 
+const ONE_PATTERNS: [usize; 9] = [
+    11, 111, 1111, 11111, 111111, 1111111, 11111111, 111111111, 1111111111,
+];
+const TWO_PATTERNS: [usize; 4] = [
+    101,       // 4
+    10101,     // 6
+    1010101,   // 8
+    101010101, // 10
+];
+const THREE_PATTERNS: [usize; 2] = [
+    1001,    // 6
+    1001001, // 9
+];
+const FOUR_PATTERNS: [usize; 1] = [
+    10001, // 8
+];
+const FIVE_PATTERNS: [usize; 1] = [
+    100001, // 10
+];
+
+const PATTERNS: [&[usize]; 5] = [
+    &ONE_PATTERNS,
+    &TWO_PATTERNS,
+    &THREE_PATTERNS,
+    &FOUR_PATTERNS,
+    &FIVE_PATTERNS,
+];
+
 #[derive(Debug, Clone, Copy)]
 struct IdRange {
     left: usize,
@@ -106,13 +134,11 @@ impl IdRange {
         };
 
         loop {
-            let shift = 10_usize.pow(digits_cur);
-            // we've already checked all the N == 2 variants, so bound lower at 3
-            for replicas in (digits_left / digits_cur).max(3)..=(digits_right / digits_cur) {
-                let candidate = build_candidate(cur, shift, replicas);
+            for pat in PATTERNS[digits_cur as usize - 1] {
+                let candidate = pat * cur;
 
                 if candidate > self.right {
-                    continue;
+                    break;
                 }
 
                 if candidate >= self.left && seen.insert(candidate) {
@@ -128,14 +154,6 @@ impl IdRange {
             }
         }
     }
-}
-
-fn build_candidate(chunk: usize, shift: usize, replicas: u32) -> usize {
-    let mut out = 0;
-    for _ in 0..replicas {
-        out = out * shift + chunk;
-    }
-    out
 }
 
 impl FromStr for IdRange {
@@ -201,6 +219,7 @@ mod tests {
         let input = std::fs::read_to_string("input.txt").expect("Unable to load input");
         let solution = GiftShop::solve(&input).unwrap();
         assert_eq!(solution, Solution::new(23701357374, 34284458938));
+        // assert_eq!(solution, Solution::new(23701357374, 3428445893));
     }
 
     #[test]
