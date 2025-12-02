@@ -79,17 +79,19 @@ version = "0.1.0"
 dependencies = [
  "aoc-plumbing",
  "criterion",
+ "gift-shop",
  "secret-entrance",
 ]
 
 [[package]]
 name = "aoc-cli"
-version = "0.1.2"
+version = "0.2.0"
 dependencies = [
  "anyhow",
  "aoc-plumbing",
  "clap",
  "clap_complete",
+ "gift-shop",
  "secret-entrance",
  "serde",
  "serde_json",
@@ -423,6 +425,18 @@ checksum = "39cab71617ae0d63f51a36d69f866391735b51691dbda63cf6f96d042b63efeb"
 dependencies = [
  "libc",
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "gift-shop"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "aoc-plumbing",
+ "aoc-std",
+ "nom",
+ "rustc-hash",
+ "serde",
 ]
 
 [[package]]
