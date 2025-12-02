@@ -36,7 +36,8 @@ just build-cli-ci
 cd ../
 
 # this is fragile: we're going to assume we always have a --version flag
-VERSION=$("repo/target/release-ci/aoc" --version | cut -d " " -f 2)
+# VERSION=$("repo/target/release-ci/aoc" --version | cut -d " " -f 2)
+VERSION=$(cat "repo/aoc-cli/Cargo.toml" | grep "version" | head -1 | cut -d " " -f 3 | tr -d '"')
 
 # we need a way to reference the version
 echo "$VERSION" > release/VERSION

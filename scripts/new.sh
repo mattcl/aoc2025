@@ -40,6 +40,20 @@ else
     sed -i "s#// command_marker#$COMMAND_REPLACEMENT#" aoc-cli/src/cli.rs
 fi
 
+echo "Modifying fast_cli.rs"
+if [[ $OSTYPE == 'darwin'* ]]; then
+    sed -i '' -e "s#// import_marker#$IMPORT_REPLACEMENT#" aoc-cli/src/fast_cli.rs
+else
+    sed -i "s#// import_marker#$IMPORT_REPLACEMENT#" aoc-cli/src/fast_cli.rs
+fi
+
+COMMAND_REPLACEMENT="(${STRUCT_NAME}, $1),\\n    // command_marker"
+if [[ $OSTYPE == 'darwin'* ]]; then
+    sed -i '' -e "s#// command_marker#$COMMAND_REPLACEMENT#" aoc-cli/src/fast_cli.rs
+else
+    sed -i "s#// command_marker#$COMMAND_REPLACEMENT#" aoc-cli/src/fast_cli.rs
+fi
+
 # ====== benchmarks
 
 echo "Appending $EXPECTED to benchmarks"
