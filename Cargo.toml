@@ -23,3 +23,8 @@ thiserror = "2.0.17"
 
 [profile.release]
 lto = true
+
+[profile.release-ci]
+inherits = "release"
+opt-level = 3
+codegen-units = 1
