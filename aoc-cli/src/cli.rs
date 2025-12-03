@@ -8,6 +8,7 @@ use aoc_plumbing::Problem;
 use clap::{Args, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, shells::Zsh};
 use gift_shop::GiftShop;
+use lobby::Lobby;
 use secret_entrance::SecretEntrance;
 // import_marker
 
@@ -168,5 +169,6 @@ impl GenerateCompletions {
 generate_cli! {
     (SecretEntrance, 1),
     (GiftShop, 2),
+    (Lobby, 3),
     // command_marker
 }

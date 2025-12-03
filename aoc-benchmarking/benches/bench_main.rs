@@ -2,6 +2,7 @@ use criterion::criterion_main;
 
 use aoc_benchmarking::aoc_benches;
 use gift_shop::GiftShop;
+use lobby::Lobby;
 use secret_entrance::SecretEntrance;
 // import_marker
 
@@ -23,6 +24,12 @@ aoc_benches! {
         GiftShop,
         "Part 1",
         "Part 2"
+    ),
+    (
+        day_003,
+        "../day-003-lobby/input.txt",
+        Lobby,
+        "Combined"
     ),
     // bench_marker
 }

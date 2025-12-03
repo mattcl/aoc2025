@@ -2,6 +2,7 @@ use std::env;
 
 use aoc_plumbing::Problem;
 use gift_shop::GiftShop;
+use lobby::Lobby;
 use secret_entrance::SecretEntrance;
 // import_marker
 
@@ -28,5 +29,6 @@ macro_rules! generate_cli {
 generate_cli! {
     (SecretEntrance, 1),
     (GiftShop, 2),
+    (Lobby, 3),
     // command_marker
 }
