@@ -15,20 +15,28 @@ impl FromStr for Lobby {
         let mut p1 = 0;
         let mut p2 = 0;
 
+        let mut cache1 = vec![vec![0; 100 + 1]; 13];
+        let mut cache2 = vec![vec![0; 100 + 1]; 13];
+
         for l in s.trim().lines() {
-            let (a, b) = best_battery(l.as_bytes());
-            p1 += a;
-            p2 += b;
+            best_battery(l.as_bytes(), &mut cache1, &mut cache2);
+
+            p1 += cache1[2][0];
+            p2 += cache1[12][0];
+
+            std::mem::swap(&mut cache1, &mut cache2);
         }
 
         Ok(Self { p1, p2 })
     }
 }
 
-fn best_battery(choices: &[u8]) -> (usize, usize) {
+fn best_battery(
+    choices: &[u8],
+    cache: &mut [Vec<usize>],
+    cache2: &mut [Vec<usize>]
+) {
     let mut fac = 1;
-
-    let mut cache = vec![vec![0; choices.len() + 1]; 13];
 
     for i in 1..13 {
         let mut max = 0;
@@ -36,12 +44,11 @@ fn best_battery(choices: &[u8]) -> (usize, usize) {
             let j = (d - b'0') as usize;
             max = max.max(j * fac + cache[i - 1][pos + 1]);
             cache[i][pos] = max;
+            cache2[i][pos] = 0;
         }
 
         fac *= 10;
     }
-
-    (cache[2][0], cache[12][0])
 }
 
 impl Problem for Lobby {
