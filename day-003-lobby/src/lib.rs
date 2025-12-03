@@ -34,31 +34,62 @@ impl FromStr for Lobby {
             }
 
             let shrunk = &battery[max_pos..];
-            let mut cache = vec![vec![0; shrunk.len() + 1]; 13];
 
-            best_battery(&battery[max_pos..], &mut cache);
-
-            p1 += cache[2][0];
-            p2 += cache[12][0];
+            p1 += best_battery2(shrunk);
+            p2 += best_battery12(shrunk);
         }
 
         Ok(Self { p1, p2 })
     }
 }
 
-fn best_battery(choices: &[u8], cache: &mut [Vec<usize>]) {
-    let mut fac = 1;
+fn best_battery2(choices: &[u8]) -> usize {
+    let mut first = choices[0] - b'0';
+    let mut max_pos = 0;
+    if first != 9 {
+        #[allow(clippy::needless_range_loop)]
+        for i in 0..(choices.len() - 1) {
+            let v = choices[i] - b'0';
+            if v > first {
+                first = v;
+                max_pos = i;
 
-    for i in 1..13 {
-        let mut max = 0;
-        for (pos, d) in choices.iter().enumerate().take(choices.len() - i + 1).rev() {
-            let j = (d - b'0') as usize;
-            max = max.max(j * fac + cache[i - 1][pos + 1]);
-            cache[i][pos] = max;
+                if v == 9 {
+                    break;
+                }
+            }
         }
-
-        fac *= 10;
     }
+
+    let mut second = 0;
+    for ch in choices[max_pos + 1..].iter() {
+        let v = ch - b'0';
+        if v > second {
+            second = v;
+            if v == 9 {
+                break;
+            }
+        }
+    }
+
+    (first * 10 + second) as usize
+}
+
+fn best_battery12(choices: &[u8]) -> usize {
+    let mut max = 0;
+    let mut start = 0;
+    for pos in 0..12 {
+        let exclude = 11 - pos as usize;
+        let (max_idx, max_digit) = choices[start..(choices.len() - exclude)]
+            .iter()
+            .enumerate()
+            .rev()
+            .max_by_key(|(_, d)| *d)
+            .expect("we know this has at least one element");
+        start += max_idx + 1;
+        max += (max_digit - b'0') as usize * 10_usize.pow(11 - pos);
+    }
+    max
 }
 
 impl Problem for Lobby {
