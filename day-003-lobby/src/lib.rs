@@ -31,11 +31,7 @@ impl FromStr for Lobby {
     }
 }
 
-fn best_battery(
-    choices: &[u8],
-    cache: &mut [Vec<usize>],
-    cache2: &mut [Vec<usize>]
-) {
+fn best_battery(choices: &[u8], cache: &mut [Vec<usize>], cache2: &mut [Vec<usize>]) {
     let mut fac = 1;
 
     for i in 1..13 {
