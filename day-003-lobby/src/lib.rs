@@ -15,23 +15,38 @@ impl FromStr for Lobby {
         let mut p1 = 0;
         let mut p2 = 0;
 
-        let mut cache1 = vec![vec![0; 100 + 1]; 13];
-        let mut cache2 = vec![vec![0; 100 + 1]; 13];
-
         for l in s.trim().lines() {
-            best_battery(l.as_bytes(), &mut cache1, &mut cache2);
+            let battery = l.as_bytes();
+            let mut max_pos = 0;
+            let mut max_v = 0;
 
-            p1 += cache1[2][0];
-            p2 += cache1[12][0];
+            #[allow(clippy::needless_range_loop)]
+            for i in 0..(battery.len() - 12) {
+                let v = battery[i] - b'0';
+                if v > max_v {
+                    max_v = v;
+                    max_pos = i;
 
-            std::mem::swap(&mut cache1, &mut cache2);
+                    if v == 9 {
+                        break;
+                    }
+                }
+            }
+
+            let shrunk = &battery[max_pos..];
+            let mut cache = vec![vec![0; shrunk.len() + 1]; 13];
+
+            best_battery(&battery[max_pos..], &mut cache);
+
+            p1 += cache[2][0];
+            p2 += cache[12][0];
         }
 
         Ok(Self { p1, p2 })
     }
 }
 
-fn best_battery(choices: &[u8], cache: &mut [Vec<usize>], cache2: &mut [Vec<usize>]) {
+fn best_battery(choices: &[u8], cache: &mut [Vec<usize>]) {
     let mut fac = 1;
 
     for i in 1..13 {
@@ -40,7 +55,6 @@ fn best_battery(choices: &[u8], cache: &mut [Vec<usize>], cache2: &mut [Vec<usiz
             let j = (d - b'0') as usize;
             max = max.max(j * fac + cache[i - 1][pos + 1]);
             cache[i][pos] = max;
-            cache2[i][pos] = 0;
         }
 
         fac *= 10;
