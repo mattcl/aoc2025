@@ -3,6 +3,7 @@ use criterion::criterion_main;
 use aoc_benchmarking::aoc_benches;
 use gift_shop::GiftShop;
 use lobby::Lobby;
+use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 // import_marker
 
@@ -29,6 +30,12 @@ aoc_benches! {
         day_003,
         "../day-003-lobby/input.txt",
         Lobby,
+        "Combined"
+    ),
+    (
+        day_004,
+        "../day-004-printing-department/input.txt",
+        PrintingDepartment,
         "Combined"
     ),
     // bench_marker

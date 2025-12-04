@@ -9,6 +9,7 @@ use clap::{Args, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, shells::Zsh};
 use gift_shop::GiftShop;
 use lobby::Lobby;
+use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 // import_marker
 
@@ -170,5 +171,6 @@ generate_cli! {
     (SecretEntrance, 1),
     (GiftShop, 2),
     (Lobby, 3),
+    (PrintingDepartment, 4),
     // command_marker
 }

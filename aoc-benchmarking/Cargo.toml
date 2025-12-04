@@ -16,3 +16,4 @@ aoc-plumbing = { path = "../aoc-plumbing" }
 secret-entrance = { path = "../day-001-secret-entrance" }
 gift-shop = { path = "../day-002-gift-shop" }
 lobby = { path = "../day-003-lobby" }
+printing-department = { path = "../day-004-printing-department" }

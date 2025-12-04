@@ -3,6 +3,7 @@ use std::env;
 use aoc_plumbing::Problem;
 use gift_shop::GiftShop;
 use lobby::Lobby;
+use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 // import_marker
 
@@ -30,5 +31,6 @@ generate_cli! {
     (SecretEntrance, 1),
     (GiftShop, 2),
     (Lobby, 3),
+    (PrintingDepartment, 4),
     // command_marker
 }
