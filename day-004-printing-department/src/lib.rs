@@ -28,25 +28,28 @@ impl<const M: usize> Default for MaskSet<M> {
     }
 }
 
-pub type PrintingDepartment = PrintingDepartmentGen<137, 3>;
+pub type PrintingDepartment = PrintingDepartmentGen<3>;
 
 #[derive(Debug, Clone)]
-pub struct PrintingDepartmentGen<const N: usize, const M: usize> {
+pub struct PrintingDepartmentGen<const M: usize> {
     p1: usize,
     p2: usize,
 }
 
-impl<const N: usize, const M: usize> FromStr for PrintingDepartmentGen<N, M> {
+impl<const M: usize> FromStr for PrintingDepartmentGen<M> {
     type Err = anyhow::Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut p1 = 0;
 
-        let mut seen = vec![vec![0_u8; N - 2]; N - 2];
+        let height = s.trim().lines().count();
         let mut removed = VecDeque::default();
-        let mut grid = vec![BitSet::<M>::ZERO; N];
+        let mut grid = vec![BitSet::<M>::ZERO; height + 2];
+
+        let mut width = 0;
 
         for (row, line) in s.trim().lines().enumerate() {
+            width = line.len();
             for (col, ch) in line.as_bytes().iter().enumerate() {
                 if ch == &b'@' {
                     grid[row + 1].insert(col + 1);
@@ -54,18 +57,20 @@ impl<const N: usize, const M: usize> FromStr for PrintingDepartmentGen<N, M> {
             }
         }
 
-        let mut masks = vec![MaskSet::default(); N];
+        let mut seen = vec![vec![0_u8; width]; height];
+        let mut masks = vec![MaskSet::default(); width + 2];
+
         #[allow(clippy::needless_range_loop)]
-        for col in 1..(N - 1) {
+        for col in 1..(width + 1) {
             masks[col].set(col);
         }
 
-        for row in 1..(N - 1) {
+        for row in 1..(height + 1) {
             let mut col = 0;
             while let Some(next) = grid[row].next_beyond(col) {
                 col = next;
 
-                if col >= N - 1 {
+                if col > height {
                     break;
                 }
 
@@ -90,7 +95,7 @@ impl<const N: usize, const M: usize> FromStr for PrintingDepartmentGen<N, M> {
 
             for (_, neighbor) in loc
                 .neighbors()
-                .filter(|(_, n)| n.col < N - 2 && n.row < N - 2)
+                .filter(|(_, n)| n.col < width && n.row < height)
             {
                 let val = seen[neighbor.row][neighbor.col];
                 if val == 4 {
@@ -106,7 +111,7 @@ impl<const N: usize, const M: usize> FromStr for PrintingDepartmentGen<N, M> {
     }
 }
 
-impl<const N: usize, const M: usize> Problem for PrintingDepartmentGen<N, M> {
+impl<const M: usize> Problem for PrintingDepartmentGen<M> {
     const DAY: usize = 4;
     const TITLE: &'static str = "printing department";
     const README: &'static str = include_str!("../README.md");
@@ -150,7 +155,7 @@ mod tests {
 @.@@@.@@@@
 .@@@@@@@@.
 @.@.@@@.@.";
-        let solution = PrintingDepartmentGen::<12, 1>::solve(input).unwrap();
+        let solution = PrintingDepartmentGen::<1>::solve(input).unwrap();
         assert_eq!(solution, Solution::new(13, 43));
     }
 }
