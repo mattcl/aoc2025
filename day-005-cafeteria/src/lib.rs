@@ -28,16 +28,14 @@ impl FromStr for Cafeteria {
                 .ok_or_else(|| anyhow!("invalid input"))?;
             ranges.push(Interval::new(start.parse()?, end.parse()?));
         }
+        ranges.sort_unstable();
+        ranges.reverse();
 
-        let mut p1 = 0;
-
-        ranges.sort();
         let mut merged = Vec::with_capacity(ranges.len());
 
         let mut cur = ranges.pop().ok_or_else(|| anyhow!("invalid input"))?;
 
         let mut p2 = 0;
-
         while let Some(next) = ranges.pop() {
             if cur.overlaps(&next) {
                 cur = Interval::new(cur.start.min(next.start), cur.end.max(next.end));
@@ -51,11 +49,13 @@ impl FromStr for Cafeteria {
         p2 += cur.width();
         merged.push(cur);
 
-        // because of the way we merged, this is already sorted, but in reverse
-        merged.reverse();
-
+        let mut p1 = 0;
         for line in raw_ids.lines() {
             let id: u64 = line.parse()?;
+
+            if id < merged[0].start || id > merged[merged.len() - 1].end {
+                continue;
+            }
 
             let mut left = 0;
             let mut right = merged.len() - 1;
@@ -113,6 +113,17 @@ mod tests {
         let input = std::fs::read_to_string("input.txt").expect("Unable to load input");
         let solution = Cafeteria::solve(&input).unwrap();
         assert_eq!(solution, Solution::new(607, 342433357244012));
+    }
+
+    #[test]
+    #[ignore]
+    fn full_dataset2() {
+        let input = std::fs::read_to_string(
+            "/home/matt/code/third-party/aoc-2025/day-005-cafeteria/input.txt",
+        )
+        .expect("Unable to load input");
+        let solution = Cafeteria::solve(&input).unwrap();
+        assert_eq!(solution, Solution::new(640, 365804144481581));
     }
 
     #[test]
