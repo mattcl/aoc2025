@@ -1,6 +1,8 @@
 use std::env;
 
 use aoc_plumbing::Problem;
+use cafeteria::Cafeteria;
+use cafeteria::Cafeteria;
 use gift_shop::GiftShop;
 use lobby::Lobby;
 use printing_department::PrintingDepartment;
@@ -32,5 +34,7 @@ generate_cli! {
     (GiftShop, 2),
     (Lobby, 3),
     (PrintingDepartment, 4),
+    (Cafeteria, 5),
+    (Cafeteria, 5),
     // command_marker
 }

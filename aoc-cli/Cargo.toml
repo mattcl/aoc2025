@@ -1,6 +1,6 @@
 [package]
 name = "aoc-cli"
-version = "0.4.1"
+version = "0.5.0"
 authors = ["Matt Chun-Lum <matt@questionable.engineering>"]
 edition = "2024"
 description = "A command line interface for executing Advent of Code solutions."
@@ -24,3 +24,4 @@ secret-entrance = { path = "../day-001-secret-entrance" }
 gift-shop = { path = "../day-002-gift-shop" }
 lobby = { path = "../day-003-lobby" }
 printing-department = { path = "../day-004-printing-department" }
+cafeteria = { path = "../day-005-cafeteria" }

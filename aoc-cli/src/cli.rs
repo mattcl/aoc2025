@@ -5,6 +5,7 @@ use std::{
 
 use anyhow::{Context, Result};
 use aoc_plumbing::Problem;
+use cafeteria::Cafeteria;
 use clap::{Args, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, shells::Zsh};
 use gift_shop::GiftShop;
@@ -172,5 +173,6 @@ generate_cli! {
     (GiftShop, 2),
     (Lobby, 3),
     (PrintingDepartment, 4),
+    (Cafeteria, 5),
     // command_marker
 }
