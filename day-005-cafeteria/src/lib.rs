@@ -116,17 +116,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
-    fn full_dataset2() {
-        let input = std::fs::read_to_string(
-            "/home/matt/code/third-party/aoc-2025/day-005-cafeteria/input.txt",
-        )
-        .expect("Unable to load input");
-        let solution = Cafeteria::solve(&input).unwrap();
-        assert_eq!(solution, Solution::new(640, 365804144481581));
-    }
-
-    #[test]
     fn example() {
         let input = "3-5
 10-14
