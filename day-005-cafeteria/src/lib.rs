@@ -1,9 +1,8 @@
-use std::str::FromStr;
+use std::{ops::RangeInclusive, str::FromStr};
 
 use anyhow::anyhow;
 
 use aoc_plumbing::Problem;
-use aoc_std::geometry::Interval;
 
 #[derive(Debug, Clone)]
 pub struct Cafeteria {
@@ -20,16 +19,17 @@ impl FromStr for Cafeteria {
             .split_once("\n\n")
             .ok_or_else(|| anyhow!("invalid input"))?;
 
-        let mut ranges: Vec<Interval<u64>> = Vec::default();
+        let mut ranges: Vec<RangeInclusive<u64>> = Vec::default();
 
         for line in raw_ranges.lines() {
             let (start, end) = line
                 .split_once("-")
                 .ok_or_else(|| anyhow!("invalid input"))?;
-            ranges.push(Interval::new(start.parse()?, end.parse()?));
+            ranges.push(start.parse()?..=end.parse()?);
         }
-        ranges.sort_unstable();
-        ranges.reverse();
+
+        // sort this reversed
+        ranges.sort_unstable_by(|a, b| b.start().cmp(a.start()));
 
         let mut merged = Vec::with_capacity(ranges.len());
 
@@ -37,41 +37,54 @@ impl FromStr for Cafeteria {
 
         let mut p2 = 0;
         while let Some(next) = ranges.pop() {
-            if cur.overlaps(&next) {
-                cur = Interval::new(cur.start.min(next.start), cur.end.max(next.end));
+            if cur.contains(next.start()) {
+                cur = (*cur.start()).min(*next.start())..=(*cur.end()).max(*next.end());
             } else {
-                p2 += cur.width();
+                p2 += cur.end() - cur.start() + 1;
                 merged.push(cur);
                 cur = next;
             }
         }
 
-        p2 += cur.width();
+        p2 += cur.end() - cur.start() + 1;
         merged.push(cur);
 
-        let mut p1 = 0;
-        for line in raw_ids.lines() {
-            let id: u64 = line.parse()?;
+        let mut ids = raw_ids
+            .lines()
+            .map(u64::from_str)
+            .collect::<Result<Vec<_>, _>>()?;
+        ids.sort();
 
-            if id < merged[0].start || id > merged[merged.len() - 1].end {
+        let mut p1 = 0;
+        let mut lower = 0;
+        for id in ids.iter() {
+            if id < merged[0].start() || id > merged[merged.len() - 1].end() {
                 continue;
             }
 
-            let mut left = 0;
+            // if we're sorted, we might just exist here already
+            if merged[lower].contains(id) {
+                p1 += 1;
+                continue;
+            }
+
+            let mut left = lower;
             let mut right = merged.len() - 1;
 
             while left <= right {
                 let mid = left + ((right - left) / 2);
                 let cur = &merged[mid];
 
-                if cur.contains_value(id) {
+                if cur.contains(id) {
                     p1 += 1;
+                    // since ids is sorted, narrow the range for the next id
+                    lower = mid;
                     break;
                 }
 
-                if cur.end < id {
+                if cur.end() < id {
                     left = mid + 1;
-                } else if cur.start > id && mid > 0 {
+                } else if cur.start() > id && mid > 0 {
                     right = mid - 1;
                 } else {
                     break;
