@@ -6,6 +6,7 @@ use gift_shop::GiftShop;
 use lobby::Lobby;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
+use trash_compactor::TrashCompactor;
 // import_marker
 
 macro_rules! generate_cli {
@@ -34,5 +35,6 @@ generate_cli! {
     (Lobby, 3),
     (PrintingDepartment, 4),
     (Cafeteria, 5),
+    (TrashCompactor, 6),
     // command_marker
 }

@@ -6,6 +6,7 @@ use gift_shop::GiftShop;
 use lobby::Lobby;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
+use trash_compactor::TrashCompactor;
 // import_marker
 
 criterion_main! {
@@ -43,6 +44,12 @@ aoc_benches! {
         day_005,
         "../day-005-cafeteria/input.txt",
         Cafeteria,
+        "Combined"
+    ),
+    (
+        day_006,
+        "../day-006-trash-compactor/input.txt",
+        TrashCompactor,
         "Combined"
     ),
     // bench_marker

@@ -84,11 +84,12 @@ dependencies = [
  "lobby",
  "printing-department",
  "secret-entrance",
+ "trash-compactor",
 ]
 
 [[package]]
 name = "aoc-cli"
-version = "0.5.2"
+version = "0.6.0"
 dependencies = [
  "anyhow",
  "aoc-plumbing",
@@ -101,6 +102,7 @@ dependencies = [
  "secret-entrance",
  "serde",
  "serde_json",
+ "trash-compactor",
 ]
 
 [[package]]
@@ -931,6 +933,18 @@ checksum = "be4d6b5f19ff7664e8c98d03e2139cb510db9b0a60b55f8e8709b689d939b6bc"
 dependencies = [
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "trash-compactor"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "aoc-plumbing",
+ "aoc-std",
+ "nom",
+ "rustc-hash",
+ "serde",
 ]
 
 [[package]]
