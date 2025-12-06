@@ -8,11 +8,11 @@ test:
 
 # run benchmarks for a given padded day `just bench 001`
 bench DAY:
-    cargo bench -p aoc-benchmarking -- {{DAY}}
+    cargo bench -p aoc-benchmarking --profile-release-ci -- {{DAY}}
 
 # run all benchmarks
 bench-all:
-    cargo bench -p aoc-benchmarking
+    cargo bench -p aoc-benchmarking --profile release-ci
 
 # makes a flamegraph for the given day
 flame DAY:

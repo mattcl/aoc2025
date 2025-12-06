@@ -15,14 +15,16 @@ macro_rules! generate_cli {
             let day: u8 = env::var("AOC_DAY")?.parse()?;
             let input_file = env::var("AOC_INPUT")?;
             let input = std::fs::read_to_string(&input_file)?;
-            let out = match day {
+            match day {
                 $(
-                $day => serde_json::to_string(&$name::solve(&input)?)?,
+                // $day => serde_json::to_string(&$name::solve(&input)?)?,
+                $day => {
+                    let sln = $name::solve(&input)?;
+                    println!(r#"{{"part_one": {}, "part_two": {}}}"#, sln.part_one, sln.part_two);
+                },
                 )*
-                _ => "\"not implemented\"".into(),
-            };
-
-            println!("{}", out);
+                _ => { println!("\"not implemented\""); }
+            }
 
             Ok(())
         }
