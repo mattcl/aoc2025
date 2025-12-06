@@ -5,14 +5,11 @@ use aoc_std::{collections::BitSet, geometry::Location};
 
 #[derive(Debug, Clone, Copy)]
 struct MaskSet<const M: usize> {
-    pub cur: BitSet<M>,
     pub adj: BitSet<M>,
 }
 
 impl<const M: usize> MaskSet<M> {
     pub fn set(&mut self, col: usize) {
-        self.cur.insert(col - 1);
-        self.cur.insert(col + 1);
         self.adj.insert(col - 1);
         self.adj.insert(col);
         self.adj.insert(col + 1);
@@ -21,10 +18,7 @@ impl<const M: usize> MaskSet<M> {
 
 impl<const M: usize> Default for MaskSet<M> {
     fn default() -> Self {
-        Self {
-            cur: BitSet::ZERO,
-            adj: BitSet::ZERO,
-        }
+        Self { adj: BitSet::ZERO }
     }
 }
 
@@ -43,6 +37,7 @@ impl<const M: usize> FromStr for PrintingDepartmentGen<M> {
         let mut p1 = 0;
 
         let height = s.trim().lines().count();
+        // let mut removed = VecDeque::default();
         let mut removed = VecDeque::default();
         let mut grid = vec![BitSet::<M>::ZERO; height + 2];
 
@@ -74,9 +69,10 @@ impl<const M: usize> FromStr for PrintingDepartmentGen<M> {
                     break;
                 }
 
-                let count = (grid[row] & masks[col].cur).count()
+                let count = (grid[row] & masks[col].adj).count()
                     + (grid[row - 1] & masks[col].adj).count()
-                    + (grid[row + 1] & masks[col].adj).count();
+                    + (grid[row + 1] & masks[col].adj).count()
+                    - 1;
 
                 let loc = Location::new(row - 1, col - 1);
                 seen[loc.row][loc.col] = count as u8;
@@ -89,7 +85,7 @@ impl<const M: usize> FromStr for PrintingDepartmentGen<M> {
 
         let mut p2 = 0;
 
-        while let Some(loc) = removed.pop_front() {
+        while let Some(loc) = removed.pop_back() {
             seen[loc.row][loc.col] = 0;
             p2 += 1;
 
