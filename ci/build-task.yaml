@@ -15,7 +15,7 @@ outputs:
 params:
   CARGO_REGISTRIES_ANCALAGON_INDEX:
   CARGO_REGISTRIES_ANCALAGON_TOKEN:
-  TARGET: "x86_64-unknown-linux-gnu"
+  TARGET: "x86_64-unknown-linux-musl"
 
 caches:
   # yeah, I'm not sure how I feel about caching the registry like this,

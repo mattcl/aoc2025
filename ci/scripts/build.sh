@@ -45,7 +45,7 @@ echo "$VERSION" > release/VERSION
 echo "Packaging $VERSION for $TARGET"
 
 mkdir dist
-cp "repo/target/release-ci/aoc" dist/
+cp "repo/target/x86_64-unknown-linux-musl/release-ci/aoc" dist/
 
 cd dist
 ARCHIVE="aoc-${VERSION}-${TARGET}.tar.gz"
