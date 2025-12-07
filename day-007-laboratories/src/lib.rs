@@ -31,9 +31,10 @@ impl FromStr for Laboratories {
         iter.next();
 
         let mut p1 = 0;
+        let mut offset = s_idx;
 
         while let Some(line) = iter.next() {
-            for (idx, b) in line.as_bytes().iter().enumerate() {
+            for (idx, b) in line.as_bytes().iter().enumerate().skip(offset) {
                 if *b == b'^' && timelines[idx] != 0 {
                     p1 += 1;
 
@@ -42,6 +43,8 @@ impl FromStr for Laboratories {
 
                     timelines[idx - 1] += prev;
                     timelines[idx + 1] += prev;
+
+                    offset = offset.min(idx - 1);
                 }
             }
 
