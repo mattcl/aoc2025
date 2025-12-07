@@ -19,3 +19,4 @@ lobby = { path = "../day-003-lobby" }
 printing-department = { path = "../day-004-printing-department" }
 cafeteria = { path = "../day-005-cafeteria" }
 trash-compactor = { path = "../day-006-trash-compactor" }
+laboratories = { path = "../day-007-laboratories" }

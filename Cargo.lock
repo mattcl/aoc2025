@@ -81,6 +81,7 @@ dependencies = [
  "cafeteria",
  "criterion",
  "gift-shop",
+ "laboratories",
  "lobby",
  "printing-department",
  "secret-entrance",
@@ -89,7 +90,7 @@ dependencies = [
 
 [[package]]
 name = "aoc-cli"
-version = "0.6.2"
+version = "0.7.0"
 dependencies = [
  "anyhow",
  "aoc-plumbing",
@@ -97,6 +98,7 @@ dependencies = [
  "clap",
  "clap_complete",
  "gift-shop",
+ "laboratories",
  "lobby",
  "printing-department",
  "secret-entrance",
@@ -538,6 +540,18 @@ checksum = "464a3709c7f55f1f721e5389aa6ea4e3bc6aba669353300af094b29ffbdde1d8"
 dependencies = [
  "once_cell",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "laboratories"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "aoc-plumbing",
+ "aoc-std",
+ "nom",
+ "rustc-hash",
+ "serde",
 ]
 
 [[package]]

@@ -8,7 +8,7 @@ test:
 
 # run benchmarks for a given padded day `just bench 001`
 bench DAY:
-    cargo bench -p aoc-benchmarking --profile-release-ci -- {{DAY}}
+    cargo bench -p aoc-benchmarking --profile release-ci -- {{DAY}}
 
 # run all benchmarks
 bench-all:

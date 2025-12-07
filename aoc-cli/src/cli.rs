@@ -9,6 +9,7 @@ use cafeteria::Cafeteria;
 use clap::{Args, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, shells::Zsh};
 use gift_shop::GiftShop;
+use laboratories::Laboratories;
 use lobby::Lobby;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
@@ -176,5 +177,6 @@ generate_cli! {
     (PrintingDepartment, 4),
     (Cafeteria, 5),
     (TrashCompactor, 6),
+    (Laboratories, 7),
     // command_marker
 }
