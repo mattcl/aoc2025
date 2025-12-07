@@ -2,7 +2,6 @@ use std::str::FromStr;
 
 use anyhow::anyhow;
 use aoc_plumbing::Problem;
-use aoc_std::collections::bitset::BitSet192;
 
 #[derive(Debug, Clone)]
 pub struct Laboratories {
@@ -14,14 +13,9 @@ impl FromStr for Laboratories {
     type Err = anyhow::Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let height = s.trim().lines().count() / 2;
-        let mut grid = vec![BitSet192::zero(); height];
-
         let mut iter = s.trim().lines();
         let first_row = iter.next().ok_or_else(|| anyhow!("invalid input"))?;
         let width = first_row.len();
-
-        let mut front = BitSet192::zero();
         let mut timelines = vec![0_usize; width];
         let s_idx = first_row
             .as_bytes()
@@ -30,52 +24,29 @@ impl FromStr for Laboratories {
             .find(|(_, ch)| **ch == b'S')
             .ok_or_else(|| anyhow!("invalid input"))?
             .0;
-        front.insert(s_idx);
+
         timelines[s_idx] += 1;
 
         // skip the empty row
         iter.next();
 
-        let mut row = 0;
+        let mut p1 = 0;
+
         while let Some(line) = iter.next() {
             for (idx, b) in line.as_bytes().iter().enumerate() {
-                if *b == b'^' {
-                    grid[row].insert(idx);
+                if *b == b'^' && timelines[idx] != 0 {
+                    p1 += 1;
+
+                    let prev = timelines[idx];
+                    timelines[idx] = 0;
+
+                    timelines[idx - 1] += prev;
+                    timelines[idx + 1] += prev;
                 }
             }
 
             // skip the empty ones
             iter.next();
-            row += 1;
-        }
-
-        let mut p1 = 0;
-
-        for row in grid.iter() {
-            // we can find all the split locations at once
-            let splits = row & front;
-            p1 += splits.count() as usize;
-
-            // xor to clear the bits we split on
-            front ^= splits;
-
-            let mut j = 0;
-            while let Some(jn) = splits.next_beyond(j) {
-                j = jn;
-                if j > width {
-                    break;
-                }
-
-                // insert new beam locations
-                front.insert(j - 1);
-                front.insert(j + 1);
-
-                let prev = timelines[j];
-                timelines[j] = 0;
-
-                timelines[j - 1] += prev;
-                timelines[j + 1] += prev;
-            }
         }
 
         let p2 = timelines.iter().sum();
