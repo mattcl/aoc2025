@@ -3,25 +3,6 @@ use std::{collections::VecDeque, str::FromStr};
 use aoc_plumbing::Problem;
 use aoc_std::{collections::BitSet, geometry::Location};
 
-#[derive(Debug, Clone, Copy)]
-struct MaskSet<const M: usize> {
-    pub adj: BitSet<M>,
-}
-
-impl<const M: usize> MaskSet<M> {
-    pub fn set(&mut self, col: usize) {
-        self.adj.insert(col - 1);
-        self.adj.insert(col);
-        self.adj.insert(col + 1);
-    }
-}
-
-impl<const M: usize> Default for MaskSet<M> {
-    fn default() -> Self {
-        Self { adj: BitSet::ZERO }
-    }
-}
-
 pub type PrintingDepartment = PrintingDepartmentGen<3>;
 
 #[derive(Debug, Clone)]
@@ -53,11 +34,14 @@ impl<const M: usize> FromStr for PrintingDepartmentGen<M> {
         }
 
         let mut seen = vec![vec![0_u8; width]; height];
-        let mut masks = vec![MaskSet::default(); width + 2];
+        let mut masks = vec![BitSet::<M>::zero(); width + 2];
+
+        let mut base_mask = BitSet::<M>::zero();
+        base_mask.set_lower(0b111);
 
         #[allow(clippy::needless_range_loop)]
         for col in 1..(width + 1) {
-            masks[col].set(col);
+            masks[col] = base_mask << (col - 1);
         }
 
         for row in 1..(height + 1) {
@@ -69,9 +53,9 @@ impl<const M: usize> FromStr for PrintingDepartmentGen<M> {
                     break;
                 }
 
-                let count = (grid[row] & masks[col].adj).count()
-                    + (grid[row - 1] & masks[col].adj).count()
-                    + (grid[row + 1] & masks[col].adj).count()
+                let count = (grid[row] & masks[col]).count()
+                    + (grid[row - 1] & masks[col]).count()
+                    + (grid[row + 1] & masks[col]).count()
                     - 1;
 
                 let loc = Location::new(row - 1, col - 1);
