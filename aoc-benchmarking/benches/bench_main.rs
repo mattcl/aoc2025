@@ -5,10 +5,15 @@ use cafeteria::Cafeteria;
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
 use lobby::Lobby;
+use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
 // import_marker
+
+#[cfg(target_env = "musl")]
+#[global_allocator]
+static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;
 
 criterion_main! {
     benches
@@ -57,6 +62,12 @@ aoc_benches! {
         day_007,
         "../day-007-laboratories/input.txt",
         Laboratories,
+        "Combined"
+    ),
+    (
+        day_008,
+        "../day-008-playground/input.txt",
+        Playground,
         "Combined"
     ),
     // bench_marker

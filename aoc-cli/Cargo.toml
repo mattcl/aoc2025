@@ -1,6 +1,6 @@
 [package]
 name = "aoc-cli"
-version = "0.7.2"
+version = "0.8.0"
 authors = ["Matt Chun-Lum <matt@questionable.engineering>"]
 edition = "2024"
 description = "A command line interface for executing Advent of Code solutions."
@@ -12,6 +12,9 @@ path = "src/main.rs"
 [features]
 default = []
 lite = []
+
+[target.'cfg(target_env = "musl")'.dependencies]
+mimalloc = "0.1.48"
 
 [dependencies]
 aoc-plumbing = { path = "../aoc-plumbing" }
@@ -27,3 +30,4 @@ printing-department = { path = "../day-004-printing-department" }
 cafeteria = { path = "../day-005-cafeteria" }
 trash-compactor = { path = "../day-006-trash-compactor" }
 laboratories = { path = "../day-007-laboratories" }
+playground = { path = "../day-008-playground" }

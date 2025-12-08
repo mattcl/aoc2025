@@ -5,6 +5,7 @@ use cafeteria::Cafeteria;
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
 use lobby::Lobby;
+use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
@@ -40,5 +41,6 @@ generate_cli! {
     (Cafeteria, 5),
     (TrashCompactor, 6),
     (Laboratories, 7),
+    (Playground, 8),
     // command_marker
 }

@@ -8,6 +8,9 @@ description = "Wrapper for having benchmarks in a single place."
 name = "bench_main"
 harness = false
 
+[target.'cfg(target_env = "musl")'.dependencies]
+mimalloc = "0.1.48"
+
 [dev-dependencies]
 criterion = { version = "0.5.1", features = ["csv_output"] }
 
@@ -20,3 +23,4 @@ printing-department = { path = "../day-004-printing-department" }
 cafeteria = { path = "../day-005-cafeteria" }
 trash-compactor = { path = "../day-006-trash-compactor" }
 laboratories = { path = "../day-007-laboratories" }
+playground = { path = "../day-008-playground" }
