@@ -1,10 +1,10 @@
-use std::{ops::Index, str::FromStr};
+use std::{ops::Index, str::FromStr, usize};
 
 use anyhow::bail;
 use aoc_plumbing::Problem;
 use aoc_std::{
     collections::BitSet,
-    geometry::{AocPoint, Point3D},
+    geometry::{AocBound, AocPoint, Bound3D, Point3D},
 };
 use nom::{
     IResult,
@@ -12,7 +12,6 @@ use nom::{
     combinator,
     sequence::{preceded, tuple},
 };
-use rayon::slice::ParallelSliceMut;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Node {
@@ -80,6 +79,12 @@ impl Index<usize> for DisjointSet {
     }
 }
 
+// with the points distributed normally, this is likely to yield the best
+// results for all inputs without doing something cheesy like tailoring to the
+// exact inputs available
+const CUTOFF_FACTOR: i64 = 20;
+const FACTOR: i64 = 50;
+
 pub type Playground = PlaygroundGen<1_000, 1_000>;
 
 #[derive(Debug, Clone)]
@@ -93,76 +98,121 @@ impl<const N: usize, const M: usize> FromStr for PlaygroundGen<N, M> {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let mut points = Vec::with_capacity(N);
-        let mut dists = Vec::with_capacity(N * N / 2);
+        let mut buckets: Vec<Vec<(i64, usize, usize)>> = vec![vec![]; FACTOR as usize];
+        let mut bounds = Bound3D::minmax();
         for line in s.trim().lines() {
             let (_, coord) = parse_coord(line).map_err(|e| e.to_owned())?;
+            bounds.update(&coord);
             points.push(coord);
         }
 
+        let wx = bounds.width() / 2;
+        let wy = bounds.height() / 2;
+        let wz = bounds.depth() / 2;
+
+        let worst = wx * wx + wy * wy + wz * wz;
+        let mut cutoff = worst / CUTOFF_FACTOR;
+        let mut mean_chunk = worst / FACTOR;
+
+        if N < 1_000 {
+            cutoff = i64::MAX;
+            mean_chunk = i64::MAX;
+        };
+
+        // pretty much all of the time is spent sorting, so what we can do to
+        // avoid that is not to sort everything until we need it
         for left in 0..points.len() {
             for right in (left + 1)..points.len() {
                 let d = points[left].euclidean_dist_sq(&points[right]);
-                dists.push((d, left, right));
+                if d < cutoff {
+                    let chunk = (d / mean_chunk) as usize;
+                    buckets[chunk].push((d, left, right));
+                }
             }
         }
-
-        dists.par_sort_unstable_by(|a, b| a.0.cmp(&b.0));
-        // return Ok(Self { p1: dists.len(), p2: 0 });
 
         let mut disjoint_set = DisjointSet::with_capacity(N);
         for i in 0..N {
             disjoint_set.insert(i);
         }
 
-        let mut iter = dists.into_iter();
-
         let mut groups = points.len();
         let mut count = 0;
+        let mut p1 = 0;
 
-        // clippy is wrong about this
-        #[allow(clippy::while_let_on_iterator)]
-        while let Some((_, left, right)) = iter.next() {
-            let a = disjoint_set.find(left);
-            let b = disjoint_set.find(right);
+        buckets.reverse();
+        'outer: while let Some(mut bucket) = buckets.pop() {
+            bucket.sort_unstable_by(|a, b| a.0.cmp(&b.0));
 
-            if a != b {
-                groups -= 1;
-                disjoint_set.union(a, b);
-            }
+            let mut iter = bucket.into_iter();
 
-            count += 1;
-            if count >= M {
-                break;
+            // clippy is wrong about this
+            #[allow(clippy::while_let_on_iterator)]
+            while let Some((_, left, right)) = iter.next() {
+                let a = disjoint_set.find(left);
+                let b = disjoint_set.find(right);
+
+                if a != b {
+                    groups -= 1;
+                    disjoint_set.union(a, b);
+                }
+
+                count += 1;
+                if count >= M {
+                    let mut sizes = Vec::default();
+                    let mut seen = BitSet::<16>::zero();
+
+                    for i in 0..N {
+                        let p = disjoint_set.find(i);
+                        if !seen.contains(p) {
+                            seen.insert(p);
+                            sizes.push(disjoint_set[p].size);
+                        }
+                    }
+
+                    sizes.sort_unstable();
+
+                    p1 = sizes.iter().rev().take(3).product();
+
+                    // we might have a remaining iter now that completes part 2
+                    //
+                    // it's lazy, but just repeat the check here
+                    for (_, left, right) in iter {
+                        let a = disjoint_set.find(left);
+                        let b = disjoint_set.find(right);
+
+                        if a != b {
+                            groups -= 1;
+                            disjoint_set.union(a, b);
+
+                            if groups < 2 {
+                                let p2 = points[left].x * points[right].x;
+                                return Ok(Self { p1, p2 });
+                            }
+                        }
+                    }
+
+                    break 'outer;
+                }
             }
         }
 
-        let mut sizes = Vec::default();
-        let mut seen = BitSet::<16>::zero();
+        // if we haven't solved part two, continue to solve
+        while let Some(mut bucket) = buckets.pop() {
+            bucket.sort_unstable_by(|a, b| a.0.cmp(&b.0));
 
-        for i in 0..N {
-            let p = disjoint_set.find(i);
-            if !seen.contains(p) {
-                seen.insert(p);
-                sizes.push(disjoint_set[p].size);
-            }
-        }
+            for (_, left, right) in bucket {
+                let a = disjoint_set.find(left);
+                let b = disjoint_set.find(right);
 
-        sizes.sort_unstable();
+                if a != b {
+                    groups -= 1;
+                    disjoint_set.union(a, b);
 
-        let p1 = sizes.iter().rev().take(3).product();
-
-        // okay, keep making connections until we only have one group left
-        for (_, left, right) in iter {
-            let a = disjoint_set.find(left);
-            let b = disjoint_set.find(right);
-
-            if a != b {
-                groups -= 1;
-                disjoint_set.union(a, b);
-
-                if groups < 2 {
-                    let p2 = points[left].x * points[right].x;
-                    return Ok(Self { p1, p2 });
+                    if groups < 2 {
+                        let p2 = points[left].x * points[right].x;
+                        return Ok(Self { p1, p2 });
+                    }
                 }
             }
         }

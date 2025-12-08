@@ -92,7 +92,7 @@ dependencies = [
 
 [[package]]
 name = "aoc-cli"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "anyhow",
  "aoc-plumbing",
@@ -149,9 +149,9 @@ dependencies = [
 
 [[package]]
 name = "aoc-geometry"
-version = "0.5.5"
+version = "0.5.6"
 source = "registry+https://gitea.hl.ancalagon.black/matt/_cargo-index.git"
-checksum = "5e141d9a1ddf2ec49457d393c05e485fa61d56c7d14430a3074a3afb80c73468"
+checksum = "26f07a683a0598872c14d5eabbf0c395161a0ae6f23740c4aec802cebeec0dbe"
 dependencies = [
  "aoc-directions",
  "num",
@@ -738,7 +738,6 @@ dependencies = [
  "aoc-plumbing",
  "aoc-std",
  "nom",
- "rayon",
  "rustc-hash",
  "serde",
 ]
