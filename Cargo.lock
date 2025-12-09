@@ -84,6 +84,7 @@ dependencies = [
  "laboratories",
  "lobby",
  "mimalloc",
+ "movie-theater",
  "playground",
  "printing-department",
  "secret-entrance",
@@ -92,7 +93,7 @@ dependencies = [
 
 [[package]]
 name = "aoc-cli"
-version = "0.8.2"
+version = "0.9.0"
 dependencies = [
  "anyhow",
  "aoc-plumbing",
@@ -103,6 +104,7 @@ dependencies = [
  "laboratories",
  "lobby",
  "mimalloc",
+ "movie-theater",
  "playground",
  "printing-department",
  "secret-entrance",
@@ -628,6 +630,18 @@ name = "minimal-lexical"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68354c5c6bd36d73ff3feceb05efa59b6acb7626617f4962be322a825e61f79a"
+
+[[package]]
+name = "movie-theater"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "aoc-plumbing",
+ "aoc-std",
+ "nom",
+ "rustc-hash",
+ "serde",
+]
 
 [[package]]
 name = "nom"

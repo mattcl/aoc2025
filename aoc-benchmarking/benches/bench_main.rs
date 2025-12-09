@@ -5,6 +5,7 @@ use cafeteria::Cafeteria;
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
 use lobby::Lobby;
+use movie_theater::MovieTheater;
 use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
@@ -68,6 +69,12 @@ aoc_benches! {
         day_008,
         "../day-008-playground/input.txt",
         Playground,
+        "Combined"
+    ),
+    (
+        day_009,
+        "../day-009-movie-theater/input.txt",
+        MovieTheater,
         "Combined"
     ),
     // bench_marker

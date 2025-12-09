@@ -11,6 +11,7 @@ use clap_complete::{generate, shells::Zsh};
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
 use lobby::Lobby;
+use movie_theater::MovieTheater;
 use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
@@ -180,5 +181,6 @@ generate_cli! {
     (TrashCompactor, 6),
     (Laboratories, 7),
     (Playground, 8),
+    (MovieTheater, 9),
     // command_marker
 }
