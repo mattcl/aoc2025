@@ -10,6 +10,7 @@ use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
+use factory::Factory;
 // import_marker
 
 #[cfg(target_env = "musl")]
@@ -75,6 +76,12 @@ aoc_benches! {
         day_009,
         "../day-009-movie-theater/input.txt",
         MovieTheater,
+        "Combined"
+    ),
+    (
+        day_010,
+        "../day-010-factory/input.txt",
+        Factory,
         "Combined"
     ),
     // bench_marker

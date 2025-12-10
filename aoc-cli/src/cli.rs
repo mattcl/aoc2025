@@ -16,6 +16,7 @@ use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
+use factory::Factory;
 // import_marker
 
 // I'm not proud
@@ -182,5 +183,6 @@ generate_cli! {
     (Laboratories, 7),
     (Playground, 8),
     (MovieTheater, 9),
+    (Factory, 10),
     // command_marker
 }

@@ -10,6 +10,7 @@ use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
+use factory::Factory;
 // import_marker
 
 macro_rules! generate_cli {
@@ -44,5 +45,6 @@ generate_cli! {
     (Laboratories, 7),
     (Playground, 8),
     (MovieTheater, 9),
+    (Factory, 10),
     // command_marker
 }
