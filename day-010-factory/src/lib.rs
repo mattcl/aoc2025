@@ -1,10 +1,18 @@
 use core::f64;
-use std::{ops::{Index, IndexMut}, str::FromStr};
+use std::{
+    ops::{Index, IndexMut},
+    str::FromStr,
+};
 
 use aoc_plumbing::Problem;
 use aoc_std::collections::BitSet;
-use nom::{branch, character::complete, combinator, multi::{fold_many1, separated_list1}, sequence::{delimited, preceded, tuple}, IResult};
-
+use nom::{
+    IResult, branch,
+    character::complete,
+    combinator,
+    multi::{fold_many1, separated_list1},
+    sequence::{delimited, preceded, tuple},
+};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Matrix<T> {
@@ -13,10 +21,14 @@ pub struct Matrix<T> {
 }
 
 impl<T> Matrix<T>
-where T: Default + Copy,
+where
+    T: Default + Copy,
 {
     pub fn new(rows: usize, cols: usize) -> Self {
-        Self { vals: vec![T::default(); rows * cols], cols }
+        Self {
+            vals: vec![T::default(); rows * cols],
+            cols,
+        }
     }
 
     pub fn rows(&self) -> usize {
@@ -104,7 +116,9 @@ fn simplex(mat: &Matrix<f64>, c: &[f64]) -> (f64, Option<Vec<f64>>) {
     if d[split_r][cols + 1] < -EPSILON {
         pivot(&mut d, &mut b_indices, &mut n_indices, split_r, cols);
 
-        if !find(&mut d, &mut b_indices, &mut n_indices, 1, rows, cols) || d[rows + 1][cols + 1] < -EPSILON {
+        if !find(&mut d, &mut b_indices, &mut n_indices, 1, rows, cols)
+            || d[rows + 1][cols + 1] < -EPSILON
+        {
             return (f64::NEG_INFINITY, None);
         }
 
@@ -144,13 +158,7 @@ fn simplex(mat: &Matrix<f64>, c: &[f64]) -> (f64, Option<Vec<f64>>) {
     (f64::NEG_INFINITY, None)
 }
 
-fn pivot(
-    d: &mut Matrix<f64>,
-    b_idx: &mut [i32],
-    n_idx: &mut [i32],
-    r: usize,
-    s: usize,
-) {
+fn pivot(d: &mut Matrix<f64>, b_idx: &mut [i32], n_idx: &mut [i32], r: usize, s: usize) {
     let k = 1.0 / d[r][s];
 
     let d_rows = d.rows();
@@ -300,11 +308,7 @@ pub struct Machine {
 }
 
 impl Machine {
-    pub fn fewest_indicator_presses(
-        &self,
-        front: &mut Vec<u16>,
-        next: &mut Vec<u16>,
-    ) -> usize {
+    pub fn fewest_indicator_presses(&self, front: &mut Vec<u16>, next: &mut Vec<u16>) -> usize {
         front.clear();
         front.push(0);
         next.clear();
@@ -338,9 +342,7 @@ impl Machine {
         usize::MAX
     }
 
-    pub fn fewest_joltage_presses(
-        &self,
-    ) -> usize {
+    pub fn fewest_joltage_presses(&self) -> usize {
         let num_joltages = self.joltages.len();
         let num_buttons = self.buttons.len();
 
@@ -398,12 +400,12 @@ impl FromStr for Factory {
 
 fn parse_machine(input: &str) -> IResult<&str, Machine> {
     combinator::map(
-        tuple((
-            parse_target,
-            parse_buttons,
-            parse_joltages,
-        )),
-        |(target, buttons, joltages)| Machine { target, buttons, joltages }
+        tuple((parse_target, parse_buttons, parse_joltages)),
+        |(target, buttons, joltages)| Machine {
+            target,
+            buttons,
+            joltages,
+        },
     )(input)
 }
 
@@ -419,18 +421,18 @@ fn parse_target(input: &str) -> IResult<&str, u16> {
                         acc |= 1 << count;
                     }
                     (count + 1, acc)
-                }
+                },
             ),
-            complete::char(']')
+            complete::char(']'),
         ),
-        |(_, v)| v
+        |(_, v)| v,
     )(input)
 }
 
 fn parse_buttons(input: &str) -> IResult<&str, Vec<u16>> {
     preceded(
         complete::space0,
-        separated_list1(complete::space1, parse_button)
+        separated_list1(complete::space1, parse_button),
     )(input)
 }
 
@@ -438,17 +440,14 @@ fn parse_button(input: &str) -> IResult<&str, u16> {
     delimited(
         complete::char('('),
         fold_many1(
-            branch::alt((
-                preceded(complete::char(','), complete::u16),
-                complete::u16,
-            )),
+            branch::alt((preceded(complete::char(','), complete::u16), complete::u16)),
             || 0_u16,
             |mut acc: u16, item| {
                 acc |= 1 << item;
                 acc
-            }
+            },
         ),
-        complete::char(')')
+        complete::char(')'),
     )(input)
 }
 
@@ -458,8 +457,8 @@ fn parse_joltages(input: &str) -> IResult<&str, Vec<u16>> {
         delimited(
             complete::char('{'),
             separated_list1(complete::char(','), complete::u16),
-            complete::char('}')
-        )
+            complete::char('}'),
+        ),
     )(input)
 }
 
@@ -480,7 +479,6 @@ impl Problem for Factory {
         Ok(self.p2)
     }
 }
-
 
 #[cfg(test)]
 mod tests {

@@ -2,6 +2,7 @@ use criterion::criterion_main;
 
 use aoc_benchmarking::aoc_benches;
 use cafeteria::Cafeteria;
+use factory::Factory;
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
 use lobby::Lobby;
@@ -10,7 +11,6 @@ use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
-use factory::Factory;
 // import_marker
 
 #[cfg(target_env = "musl")]

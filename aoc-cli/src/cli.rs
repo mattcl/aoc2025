@@ -8,6 +8,7 @@ use aoc_plumbing::Problem;
 use cafeteria::Cafeteria;
 use clap::{Args, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, shells::Zsh};
+use factory::Factory;
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
 use lobby::Lobby;
@@ -16,7 +17,6 @@ use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
-use factory::Factory;
 // import_marker
 
 // I'm not proud

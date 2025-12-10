@@ -2,6 +2,7 @@ use std::env;
 
 use aoc_plumbing::Problem;
 use cafeteria::Cafeteria;
+use factory::Factory;
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
 use lobby::Lobby;
@@ -10,7 +11,6 @@ use playground::Playground;
 use printing_department::PrintingDepartment;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
-use factory::Factory;
 // import_marker
 
 macro_rules! generate_cli {
