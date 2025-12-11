@@ -26,3 +26,4 @@ laboratories = { path = "../day-007-laboratories" }
 playground = { path = "../day-008-playground" }
 movie-theater = { path = "../day-009-movie-theater" }
 factory = { path = "../day-010-factory" }
+reactor = { path = "../day-011-reactor" }

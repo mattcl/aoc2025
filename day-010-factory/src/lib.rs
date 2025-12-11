@@ -74,8 +74,8 @@ impl<T> IndexMut<usize> for Matrix<T> {
 // f64::EPSILON is too small
 const EPSILON: f64 = 1e-9;
 
-/// I don't really care for problems like this, whese the usual "best" answer is
-/// to use z3 or something. So we're going to cobble together this blob form
+/// I don't really care for problems like this, where the usual "best" answer is
+/// to use z3 or something. So we're going to cobble together this blob from
 /// hints from reddit and wikipedia
 ///
 /// https://en.wikipedia.org/wiki/Branch_and_bound

@@ -9,6 +9,7 @@ use lobby::Lobby;
 use movie_theater::MovieTheater;
 use playground::Playground;
 use printing_department::PrintingDepartment;
+use reactor::Reactor;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
 // import_marker
@@ -82,6 +83,12 @@ aoc_benches! {
         day_010,
         "../day-010-factory/input.txt",
         Factory,
+        "Combined"
+    ),
+    (
+        day_011,
+        "../day-011-reactor/input.txt",
+        Reactor,
         "Combined"
     ),
     // bench_marker

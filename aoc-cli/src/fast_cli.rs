@@ -9,6 +9,7 @@ use lobby::Lobby;
 use movie_theater::MovieTheater;
 use playground::Playground;
 use printing_department::PrintingDepartment;
+use reactor::Reactor;
 use secret_entrance::SecretEntrance;
 use trash_compactor::TrashCompactor;
 // import_marker
@@ -46,5 +47,6 @@ generate_cli! {
     (Playground, 8),
     (MovieTheater, 9),
     (Factory, 10),
+    (Reactor, 11),
     // command_marker
 }
