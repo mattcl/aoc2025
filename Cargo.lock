@@ -79,6 +79,7 @@ version = "0.1.0"
 dependencies = [
  "aoc-plumbing",
  "cafeteria",
+ "christmas-tree-farm",
  "criterion",
  "factory",
  "gift-shop",
@@ -95,11 +96,12 @@ dependencies = [
 
 [[package]]
 name = "aoc-cli"
-version = "0.11.1"
+version = "0.12.0"
 dependencies = [
  "anyhow",
  "aoc-plumbing",
  "cafeteria",
+ "christmas-tree-farm",
  "clap",
  "clap_complete",
  "factory",
@@ -280,6 +282,18 @@ name = "cfg-if"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
+
+[[package]]
+name = "christmas-tree-farm"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "aoc-plumbing",
+ "aoc-std",
+ "nom",
+ "rustc-hash",
+ "serde",
+]
 
 [[package]]
 name = "ciborium"

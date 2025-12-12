@@ -1,4 +1,4 @@
-use std::{collections::hash_map::Entry, ops::AddAssign, str::FromStr, u32, usize};
+use std::{collections::hash_map::Entry, ops::AddAssign, str::FromStr};
 
 use anyhow::anyhow;
 use aoc_plumbing::Problem;

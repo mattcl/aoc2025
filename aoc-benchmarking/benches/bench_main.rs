@@ -2,6 +2,7 @@ use criterion::criterion_main;
 
 use aoc_benchmarking::aoc_benches;
 use cafeteria::Cafeteria;
+use christmas_tree_farm::ChristmasTreeFarm;
 use factory::Factory;
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
@@ -89,6 +90,12 @@ aoc_benches! {
         day_011,
         "../day-011-reactor/input.txt",
         Reactor,
+        "Combined"
+    ),
+    (
+        day_012,
+        "../day-012-christmas-tree-farm/input.txt",
+        ChristmasTreeFarm,
         "Combined"
     ),
     // bench_marker

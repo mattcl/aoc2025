@@ -2,6 +2,7 @@ use std::env;
 
 use aoc_plumbing::Problem;
 use cafeteria::Cafeteria;
+use christmas_tree_farm::ChristmasTreeFarm;
 use factory::Factory;
 use gift_shop::GiftShop;
 use laboratories::Laboratories;
@@ -48,5 +49,6 @@ generate_cli! {
     (MovieTheater, 9),
     (Factory, 10),
     (Reactor, 11),
+    (ChristmasTreeFarm, 12),
     // command_marker
 }

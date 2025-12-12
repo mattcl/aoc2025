@@ -6,6 +6,7 @@ use std::{
 use anyhow::{Context, Result};
 use aoc_plumbing::Problem;
 use cafeteria::Cafeteria;
+use christmas_tree_farm::ChristmasTreeFarm;
 use clap::{Args, CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, shells::Zsh};
 use factory::Factory;
@@ -186,5 +187,6 @@ generate_cli! {
     (MovieTheater, 9),
     (Factory, 10),
     (Reactor, 11),
+    (ChristmasTreeFarm, 12),
     // command_marker
 }
