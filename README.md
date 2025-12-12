@@ -2,26 +2,26 @@
 
 As usual, no-unsafe, performance-oriented Solutions.
 
-## Total runtime ~6.85 ms
+## Total runtime ~5.5 ms
 
 ```
 ❯ aoc-tools criterion-summary target/criterion
 +----------------------------------------------------+
 | Problem                   Time (ms)   % Total Time |
 +====================================================+
-| 001 secret entrance         0.04215          0.616 |
-| 002 gift shop               0.03145          0.460 |
-| 003 lobby                   0.05317          0.777 |
-| 004 printing department     0.38273          5.593 |
-| 005 cafeteria               0.03622          0.529 |
-| 006 trash compactor         0.01458          0.213 |
-| 007 laboratories            0.00562          0.082 |
-| 008 playground              0.80899         11.822 |
-| 009 movie theater           0.17326          2.532 |
-| 010 factory                 3.09821         45.273 |
-| 011 reactor                 0.05319          0.777 |
-| 012 christmas tree farm     0.04724          0.690 |
-| Total                       6.84334         69.364 |
+| 001 secret entrance         0.04286          0.782 |
+| 002 gift shop               0.04061          0.741 |
+| 003 lobby                   0.05900          1.077 |
+| 004 printing department     0.44610          8.140 |
+| 005 cafeteria               0.05223          0.953 |
+| 006 trash compactor         0.01831          0.334 |
+| 007 laboratories            0.00676          0.123 |
+| 008 playground              1.04279         19.027 |
+| 009 movie theater           0.19279          3.518 |
+| 010 factory                 3.45319         63.009 |
+| 011 reactor                 0.07440          1.358 |
+| 012 christmas tree farm     0.05147          0.939 |
+| Total                       5.48051        100.000 |
 +----------------------------------------------------+
 ```
 
